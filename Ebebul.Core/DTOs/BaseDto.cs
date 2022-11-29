@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ebebul.Core.DTOs
 {
-    internal class BaseDto
+    public class BaseDto
     {
+        public int Id { get; set; }
+        public DateTime CreatDate { get; set; }
     }
 }
