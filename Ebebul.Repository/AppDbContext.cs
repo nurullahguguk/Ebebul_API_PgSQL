@@ -14,6 +14,7 @@ namespace Ebebul.Repository
         //Startupta veritabanı yolunu verebilmek için DbContextOptions oluşturuyoruz.
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            //"timestamp with time zone' literal cannot be generated for Local DateTime:a UTC DateTime is required" hatası için yazıldı.
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
