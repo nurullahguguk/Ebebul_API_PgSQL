@@ -13,11 +13,14 @@ namespace Ebebul.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IService<User> _service;
+        private readonly IUserService _userService;
 
-        public UsersController(IMapper mapper, IService<User> service)
+
+        public UsersController(IMapper mapper, IService<User> service, IUserService userService = null)
         {
             _mapper = mapper;
             _service = service;
+            _userService = userService;
         }
 
         /// GET api/users
@@ -36,6 +39,14 @@ namespace Ebebul.API.Controllers
             var user = await _service.GetByIdAsync(id);
             var usersDto = _mapper.Map<UserDto>(user);
             return CreateActionResult(CustomResponseDto<UserDto>.Success(200, usersDto));
+        }
+        
+        //GET api/users/GetUsersWithCategory
+        //[HttpGet("GetUsersWithCategory")] => Defaul denilebilir
+        [HttpGet("[action]")] //GetUsersWithGategory method ismini otomotik alır.
+        public async Task<IActionResult> GetUsersWithGategory()
+        {
+            return CreateActionResult(await _userService.GetUsersWithCategory());
         }
 
         //
