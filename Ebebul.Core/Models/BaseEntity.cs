@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ebebul.Core.Models
+namespace Ebebul.Core.Entity
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         public int Id { get; set; }
         public DateTime CreatDate { get; set; }
+
         //? Nullable anlamına gelir.
         public DateTime? UpdateDate { get; set; }
     }

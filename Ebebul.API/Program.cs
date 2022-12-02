@@ -1,12 +1,14 @@
 using Ebebul.Core.Repositories;
+using Ebebul.Core.Services;
 using Ebebul.Core.UnitofWorks;
+using Ebebul.Repository;
 using Ebebul.Repository.Repositories;
 using Ebebul.Repository.UnitofWorks;
-using Ebebul.Repository;
-using Microsoft.EntityFrameworkCore;
 using Ebebul.Service.Mapping;
-using Ebebul.Core.Services;
 using Ebebul.Service.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +29,9 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 {
     x.UseNpgsql(builder.Configuration.GetConnectionString("ServerConnection"), option =>
     {
-        option.MigrationsAssembly("Ebebul.Repository");
+        //option.MigrationsAssembly("Ebebul.Repository");
         //Üstteki gibi yazmak yerine dinamik þekilde vermek için Assembly kullandýk. Böylece Repository ismi deðiþse de bulabilmesi için.
-        //option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+        option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
     });
 });
 
@@ -41,8 +43,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseHttpsRedirection();
 

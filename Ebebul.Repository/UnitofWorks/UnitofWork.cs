@@ -10,6 +10,12 @@ namespace Ebebul.Repository.UnitofWorks
     public class UnitofWork : IUnitofWork
     {
         private readonly AppDbContext _context;
+
+        public UnitofWork(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public void Comit()
         {
             _context.SaveChanges();

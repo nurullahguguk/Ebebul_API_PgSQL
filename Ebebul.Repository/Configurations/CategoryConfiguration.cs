@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//IEntityTypeConfiguration ile Context de yaptığımız işlemleri burada yapmamız daha uygun bir yaklaşımdır. Fluent Api yöntemiyle burada düzenleyebiliriz.
+
 namespace Ebebul.Repository.Configurations
 {
     internal class CategoryConfiguration : IEntityTypeConfiguration<Category>

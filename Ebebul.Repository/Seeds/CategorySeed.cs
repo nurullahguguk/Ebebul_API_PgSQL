@@ -14,7 +14,6 @@ namespace Ebebul.Repository.Seeds
     //Seed Data veritabanında ilgili tablolar oluşurken default dataların atılmasıdır.
     //2 farklı yerde gerçekleştirilebilir. 1-Migration yaparken ilgili tablolar oluştuğu esnada veya 2-Migration yapılır tablolar oluşur, uygulama ayağa kalktığında
     //data atabiliriz. (1.Yöntem uygulaması aşağıdadır.)
-
     internal class CategorySeed : IEntityTypeConfiguration<Category>
     {
         public void Configure(EntityTypeBuilder<Category> builder)
@@ -27,3 +26,4 @@ namespace Ebebul.Repository.Seeds
         }
     }
 }
+

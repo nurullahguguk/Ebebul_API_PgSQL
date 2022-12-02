@@ -14,7 +14,7 @@ namespace Ebebul.Repository.Repositories
         protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public GenericRepository(AppDbContext context, DbSet<T> dbSet)
+        public GenericRepository(AppDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();
@@ -30,7 +30,7 @@ namespace Ebebul.Repository.Repositories
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        public async Task<bool> AnyAsync(System.Linq.Expressions.Expression<Func<T, bool>> expression)
         {
             return await _dbSet.AnyAsync(expression);
         }
