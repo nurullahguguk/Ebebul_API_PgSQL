@@ -1,4 +1,5 @@
 ﻿using Ebebul.API.Filters;
+using Ebebul.API.Middlewares;
 using Ebebul.Core.Repositories;
 using Ebebul.Core.Services;
 using Ebebul.Core.UnitofWorks;
@@ -63,6 +64,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCustomException();
 
 app.UseAuthorization();
 
