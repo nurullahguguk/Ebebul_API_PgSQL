@@ -1,5 +1,8 @@
-﻿using Ebebul.API.Filters;
+﻿using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using Ebebul.API.Filters;
 using Ebebul.API.Middlewares;
+using Ebebul.API.Modules;
 using Ebebul.Core.Repositories;
 using Ebebul.Core.Services;
 using Ebebul.Core.UnitofWorks;
@@ -14,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Extensions;
 using System.Reflection;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,18 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(typeof(NotFoundFilter<>));
-
-builder.Services.AddScoped<IUnitofWork, UnitofWork>();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
@@ -53,6 +44,10 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
     });
 });
+
+builder.Host.UseServiceProviderFactory
+    (new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerbuilder => containerbuilder.RegisterModule(new RepoServiceModule()));
 
 var app = builder.Build();
 
