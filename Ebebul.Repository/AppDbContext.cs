@@ -1,4 +1,5 @@
-﻿using Ebebul.Core.Models;
+﻿using Ebebul.Core.Entity;
+using Ebebul.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,43 @@ namespace Ebebul.Repository
             //modelBuilder.ApplyConfiguration(new ProductConfiguration());
 
             base.OnModelCreating(modelBuilder);
+
+        }
+        public override int SaveChanges()
+        {
+            UpdateChangeTracker();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateChangeTracker();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public void UpdateChangeTracker()
+        {
+            foreach (var item in ChangeTracker.Entries())
+            {
+                if (item.Entity is BaseEntity entityReference)
+                {
+                    switch (item.State)
+                    {
+                        case EntityState.Added:
+                            {
+                                Entry(entityReference).Property(x => x.UpdateDate).IsModified = false;
+                                entityReference.CreatDate = DateTime.Now;
+                                break;
+                            }
+                        case EntityState.Modified:
+                            {
+                                Entry(entityReference).Property(x => x.CreatDate).IsModified = false;
+                                entityReference.UpdateDate = DateTime.Now;
+                                break;
+                            }
+                    }
+                }
+            }
         }
     }
 }
